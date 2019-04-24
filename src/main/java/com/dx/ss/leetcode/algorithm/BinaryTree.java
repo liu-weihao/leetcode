@@ -6,6 +6,39 @@ import java.util.Stack;
 
 public class BinaryTree {
 
+    int index;
+    /**
+     * 节点数组，-1表示填充节点，不是真实存在，需要保证是完整二叉树
+     */
+    int[] array = new int[]{3, 7, 6, -1, -1, 2, 8, -1, -1, 12, -1, -1, 9, 1, -1, -1, 4, -1, 5, -1, -1};
+    /**
+     * 以先序创建一棵二叉树
+     *
+     * @return 二叉树
+     */
+    public TreeNode genTreeByPreOrder(int[] array) {
+        //空
+        if (array == null || array.length == 0 || array[0] == -1) return null;
+        //只有一个根节点
+        if (array.length == 1) return new TreeNode(array[0]);
+        return createTree(new TreeNode(), array);
+    }
+
+    /**
+     * 递归实现
+     */
+    public TreeNode createTree(TreeNode node, int[] array) {
+        int data = array[index++];
+        if (data == -1) return null;
+        //设置节点数据
+        node.setData(data);
+        //左节点
+        node.setLeft(createTree(new TreeNode(), array));
+        //右节点
+        node.setRight(createTree(new TreeNode(), array));
+        return node;
+    }
+
     /**
      * 前序遍历，非递归实现。
      *
@@ -228,12 +261,21 @@ public class BinaryTree {
         System.out.println();
         System.out.println("计算高度：\t" + binaryTree.depth(A));
         System.out.println("【递归】计算高度：\t" + binaryTree.recursiveDepth(A));
+        TreeNode tree = binaryTree.genTreeByPreOrder(binaryTree.array);
+        binaryTree.preOrder(tree);
     }
 
     public static class TreeNode {
         private int data;
         private TreeNode left;
         private TreeNode right;
+
+        public TreeNode() {
+        }
+
+        public TreeNode(int data) {
+            this.data = data;
+        }
 
         public TreeNode(int data, TreeNode left, TreeNode right) {
             this.data = data;
