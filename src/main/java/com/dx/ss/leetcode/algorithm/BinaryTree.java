@@ -1,8 +1,6 @@
 package com.dx.ss.leetcode.algorithm;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTree {
 
@@ -11,6 +9,7 @@ public class BinaryTree {
      * 节点数组，-1表示填充节点，不是真实存在，需要保证是完整二叉树
      */
     int[] array = new int[]{3, 7, 6, -1, -1, 2, 8, -1, -1, 12, -1, -1, 9, 1, -1, -1, 4, -1, 5, -1, -1};
+
     /**
      * 以先序创建一棵二叉树
      *
@@ -37,6 +36,40 @@ public class BinaryTree {
         //右节点
         node.setRight(createTree(new TreeNode(), array));
         return node;
+    }
+
+
+    /**
+     * 以层序创建一棵二叉树，非递归实现
+     *
+     * @param array 节点数组，-1表示填充节点，不是真实存在，需要保证是完整二叉树
+     * @return 二叉树
+     */
+    public TreeNode genTreeByLevelOrder(int[] array) {
+        //空
+        if (array == null || array.length == 0 || array[0] == -1) return null;
+        //只有一个根节点
+        if (array.length == 1) return new TreeNode(array[0]);
+        //构造节点列表
+        List<TreeNode> nodeList = new ArrayList<>();
+        for (int data : array) {
+            if (data != -1) {
+                nodeList.add(new TreeNode(data));
+            } else {
+                //-1表示空节点
+                nodeList.add(null);
+            }
+        }
+        for (int i = 0; i < array.length / 2; i++) {
+            TreeNode parent = nodeList.get(i);
+            //忽略空节点
+            if (parent == null) continue;
+            //left -> i * 2 + 1
+            parent.setLeft(nodeList.get(i * 2 + 1));
+            //left -> i * 2 + 2
+            parent.setRight(nodeList.get(i * 2 + 2));
+        }
+        return nodeList.get(0);
     }
 
     /**
@@ -263,6 +296,9 @@ public class BinaryTree {
         System.out.println("【递归】计算高度：\t" + binaryTree.recursiveDepth(A));
         TreeNode tree = binaryTree.genTreeByPreOrder(binaryTree.array);
         binaryTree.preOrder(tree);
+        System.out.println();
+        TreeNode root = binaryTree.genTreeByLevelOrder(new int[]{3, 7, 9, 6, 2, 1, 4, -1, -1, 8, 12, -1, -1, -1, 5});
+        binaryTree.preOrder(root);
     }
 
     public static class TreeNode {
