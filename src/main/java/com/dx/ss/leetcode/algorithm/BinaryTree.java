@@ -251,6 +251,37 @@ public class BinaryTree {
     }
 
     /**
+     * 最小高度（根节点到最近的叶子节点的高度）
+     *
+     * @param root 二叉树
+     * @return 最小高度
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null) return 0;
+        if (root.left == null && root.right == null) return 1;
+        int level = 0;
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            int n = q.size();
+            level++;
+            while (n > 0) {
+                TreeNode node = q.poll();
+                if (node.left == null && node.right == null) return level;
+                if (node.left != null) {
+                    q.add(node.left);
+                }
+                if (node.right != null) {
+                    q.add(node.right);
+                }
+                n--;
+            }
+
+        }
+        return level;
+    }
+
+    /**
      * 计算高度，递归实现
      *
      * @param root 根节点
@@ -296,8 +327,6 @@ public class BinaryTree {
         TreeNode tree = binaryTree.genTreeByPreOrder(binaryTree.array);
         binaryTree.preOrder(tree);
         System.out.println();
-        TreeNode root = binaryTree.genTreeByLevelOrder(new int[]{3, 7, 9, 6, 2, 1, 4, -1, -1, 8, 12, -1, -1, -1, 5});
-        binaryTree.preOrder(root);
     }
 
     public static class TreeNode {
