@@ -230,25 +230,24 @@ public class BinaryTree {
      */
     public int depth(TreeNode root) {
         if (root == null) return 0;
-        int lh = 0, rh = 0;
-        Queue<TreeNode> q = new ArrayDeque<TreeNode>();
-        //根节点入队
+        int level = 0;
+        Queue<TreeNode> q = new ArrayDeque<>();
         q.add(root);
         while (!q.isEmpty()) {
-            //出队并访问
-            TreeNode node = q.poll();
-            //左节点入队
-            if (node.getLeft() != null) {
-                lh++;
-                q.add(node.getLeft());
+            int n = q.size();
+            while (n > 0) {
+                TreeNode node = q.poll();
+                if (node.left != null) {
+                    q.add(node.left);
+                }
+                if (node.right != null) {
+                    q.add(node.right);
+                }
+                n--;
             }
-            //右节点入队
-            if (node.getRight() != null) {
-                rh++;
-                q.add(node.getRight());
-            }
+            level++;
         }
-        return Math.max(lh, rh);
+        return level;
     }
 
     /**
