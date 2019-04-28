@@ -1,4 +1,4 @@
-package com.dx.ss.leetcode;
+package com.dx.ss.leetcode.MorseCode;
 
 import java.util.HashSet;
 import java.util.Set;
